@@ -1,9 +1,5 @@
 # AutoAnalytica — Autonomous Data Intelligence Platform
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi)](https://fastapi.tiangolo.com)
-
 An enterprise-grade, full-stack Business Intelligence platform that autonomously analyzes datasets using **Machine Learning**, **NLP Reporting**, **Clustering**, **Outlier Detection**, and **Advanced Visualizations** — all with a premium dark-mode glassmorphism UI.
 
 ---
