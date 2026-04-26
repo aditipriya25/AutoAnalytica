@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useEffect } from "react";
 import { Binary, Target, Settings, Play, DownloadCloud, Activity } from "lucide-react";
@@ -91,7 +92,7 @@ export default function MachineLearningPage() {
        formData.append("cleaning_strategy", strategy);
        formData.append("algorithm", algorithm);
 
-       const res = await fetch("http://localhost:8000/api/ml/train", {
+       const res = await fetch(`${API_URL}/api/ml/train`, {
           method: "POST",
           body: formData
        });

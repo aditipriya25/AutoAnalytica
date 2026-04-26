@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useEffect } from "react";
 import { Download, FileText, ArrowLeft, Loader2 } from "lucide-react";
@@ -25,7 +26,7 @@ export default function ComprehensiveReportPage() {
           clustering = JSON.parse(localStorage.getItem("dataset_clustering") || "null");
         } catch(e) {}
 
-        const res = await fetch("http://localhost:8000/api/nlp/comprehensive", {
+        const res = await fetch(`${API_URL}/api/nlp/comprehensive`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ eda, ml, outliers, clustering })

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot, X, Send, Command, Loader2 } from "lucide-react";
+import { API_URL } from "@/lib/config";
 
 export default function GlobalChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,6 @@ export default function GlobalChatWidget() {
     setIsTyping(true);
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       const currentPath = typeof window !== 'undefined' ? window.location.pathname : "Dashboard";
       const datasetEda = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('dataset_eda') || '{}') : {};
       

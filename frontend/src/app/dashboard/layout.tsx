@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { LogOut, LayoutGrid, Trash2 } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +20,7 @@ export default function DashboardLayout({
   const clearDataset = async () => {
     if (!confirm("Are you sure you want to clear the current dataset? All analysis results will be lost.")) return;
     try {
-      await fetch("http://localhost:8000/api/dataset/clear", { method: "DELETE" });
+      await fetch(`${API_URL}/api/dataset/clear`, { method: "DELETE" });
     } catch {}
     localStorage.removeItem("dataset_active");
     localStorage.removeItem("dataset_eda");

@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -33,7 +34,7 @@ export default function OutliersPage() {
         formData.append("contamination", contamination.toString());
         formData.append("cleaning_strategy", strategy);
 
-        const res = await fetch("http://localhost:8000/api/outliers/scan", {
+        const res = await fetch(`${API_URL}/api/outliers/scan`, {
             method: "POST",
             body: formData
         });

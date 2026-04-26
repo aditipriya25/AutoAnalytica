@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useEffect, useState } from "react";
 import { Sparkles, FileText, Loader2, BarChart3, PieChart, TrendingUp, Box, GitBranch, Activity, Layers, AreaChart, Sigma, AlertTriangle, Grid3X3, LineChart, BarChart } from "lucide-react";
@@ -58,7 +59,7 @@ export default function NLPInsightsPage() {
     setError(null);
     try {
       const eda = JSON.parse(localStorage.getItem("dataset_eda") || "{}");
-      const res = await fetch("http://localhost:8000/api/nlp/report", {
+      const res = await fetch(`${API_URL}/api/nlp/report`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...eda, selected_graphs: selectedGraphs }),

@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useCallback, useEffect } from "react";
 import { UploadCloud, FileType, CheckCircle2, AlertCircle, Trash2 } from "lucide-react";
@@ -42,7 +43,7 @@ export default function UploadPage() {
         formData.append("description", "User dashboard stream.");
         formData.append("is_public", "false");
 
-        const res = await fetch("http://localhost:8000/api/dataset/upload", {
+        const res = await fetch(`${API_URL}/api/dataset/upload`, {
             method: "POST",
             body: formData
         });

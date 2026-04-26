@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { FileText, Download, Share2, Printer, Activity, Database, TableProperties, Sigma } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -49,7 +50,7 @@ export default function ReportsPage() {
   const synthesizeReport = async () => {
     setIsSynthesizing(true);
     try {
-      const res = await fetch("http://localhost:8000/api/nlp/generate", {
+      const res = await fetch(`${API_URL}/api/nlp/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(eda)

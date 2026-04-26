@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -33,7 +34,7 @@ export default function ClusteringPage() {
         formData.append("clusters", clusters.toString());
         formData.append("cleaning_strategy", strategy);
 
-        const res = await fetch("http://localhost:8000/api/clustering/kmeans", {
+        const res = await fetch(`${API_URL}/api/clustering/kmeans`, {
             method: "POST",
             body: formData
         });

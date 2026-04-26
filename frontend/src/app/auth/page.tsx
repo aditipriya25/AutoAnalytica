@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/config";
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -39,7 +40,7 @@ export default function AuthPage() {
       formData.append("username", email);
       formData.append("password", password);
 
-      const res = await fetch("http://localhost:8000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: formData
@@ -80,7 +81,7 @@ export default function AuthPage() {
         college_org: college_org || null
       };
 
-      const res = await fetch("http://localhost:8000/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
