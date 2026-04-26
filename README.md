@@ -1,40 +1,39 @@
-# 🚀 AutoAnalytica — Autonomous Data Intelligence Platform
+# AutoAnalytica — Autonomous Data Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi)](https://fastapi.tiangolo.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 An enterprise-grade, full-stack Business Intelligence platform that autonomously analyzes datasets using **Machine Learning**, **NLP Reporting**, **Clustering**, **Outlier Detection**, and **Advanced Visualizations** — all with a premium dark-mode glassmorphism UI.
 
 ---
 
-## ✨ Features
+## Features
 
-### 📊 Exploratory Data Analysis (EDA)
+### Exploratory Data Analysis (EDA)
 - Automatic schema detection and statistical profiling
 - Distribution analysis, correlation matrices, and data quality checks
 
-### 🤖 Machine Learning Pipeline
+### Machine Learning Pipeline
 - **Auto-detection** of Classification vs Regression tasks
 - **13+ algorithms**: Random Forest, SVM, Logistic Regression, KNN, Decision Tree, Gradient Boosting, AdaBoost, Extra Trees, Ridge, Lasso, Elastic Net, SVR, Bagging
 - **8 diagnostic graphs per model**: PCA projections, confusion matrices, residual plots, QQ plots, feature importance, prediction confidence, and more
 - Algorithm selection dropdown with task-aware filtering
 
-### 📝 NLP Report Engine
+### NLP Report Engine
 - **16 visualization types**: Heatmaps, scatter matrices, violin plots, CDFs, category distributions, and more
 - Configurable graph selection grid with Select/Deselect All
 - Markdown-based executive summaries
 
-### 🔍 Clustering & Outlier Detection
+### Clustering and Outlier Detection
 - K-Means with Elbow Method and Silhouette Analysis
 - Automated outlier identification and scoring
 
-### 📈 Advanced Visualizations
+### Advanced Visualizations
 - Interactive chart builder with 15+ graph types
 - Dark-mode styled matplotlib outputs
 
-### 🏢 Enterprise Features
+### Enterprise Features
 - JWT-based authentication
 - Dataset history management with per-entry delete
 - Model download (.pkl) and Live Predict API
@@ -42,7 +41,7 @@ An enterprise-grade, full-stack Business Intelligence platform that autonomously
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -54,7 +53,7 @@ An enterprise-grade, full-stack Business Intelligence platform that autonomously
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.10+
@@ -85,7 +84,7 @@ Frontend runs at: `http://localhost:3000`
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 AutoAnalytica/
@@ -95,7 +94,7 @@ AutoAnalytica/
 │   │   │   ├── auth.py    # Authentication endpoints
 │   │   │   ├── ml.py      # ML training pipeline
 │   │   │   ├── nlp.py     # NLP report generation
-│   │   │   ├── upload.py  # Dataset upload & management
+│   │   │   ├── upload.py  # Dataset upload and management
 │   │   │   └── ...
 │   │   ├── services/      # Business logic engines
 │   │   │   ├── ml_engine.py      # 13+ ML algorithms
@@ -121,18 +120,12 @@ AutoAnalytica/
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 > Upload your dataset → Auto-analyze → Train ML models → Generate reports
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 👩‍💻 Author
+## Author
 
 **Aditi Priya** — [GitHub](https://github.com/aditipriya25)
