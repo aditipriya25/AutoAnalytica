@@ -1,0 +1,358 @@
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index 6fe62d1..5a8ae7e 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,101 +1,258 @@
+-import Image from "next/image";
++"use client";
+ 
+-export default function Home() {
+-  return (
+-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+-        <Image
+-          className="dark:invert"
+-          src="https://nextjs.org/icons/next.svg"
+-          alt="Next.js logo"
+-          width={180}
+-          height={38}
+-          priority
+-        />
+-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+-          <li className="mb-2">
+-            Get started by editing{" "}
+-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+-              src/app/page.tsx
+-            </code>
+-            .
+-          </li>
+-          <li>Save and see your changes instantly.</li>
+-        </ol>
++import { useState, useEffect } from 'react';
++import { motion, AnimatePresence } from 'framer-motion';
++import { ArrowRight, Activity, Zap, Layers } from "lucide-react";
++import dynamic from "next/dynamic";
+ 
+-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+-          <a
+-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-            target="_blank"
+-            rel="noopener noreferrer"
+-          >
+-            <Image
+-              className="dark:invert"
+-              src="https://nextjs.org/icons/vercel.svg"
+-              alt="Vercel logomark"
+-              width={20}
+-              height={20}
+-            />
+-            Deploy now
+-          </a>
+-          <a
+-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-            target="_blank"
+-            rel="noopener noreferrer"
++const ParticleBackground = dynamic(() => import("@/components/ParticleBackground"), { ssr: false });
++
++export default function LandingPage() {
++  const [introCompleted, setIntroCompleted] = useState(false);
++
++  const containerVariants = {
++    hidden: { opacity: 0 },
++    visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
++  };
++  
++  const itemVariants = {
++    hidden: { opacity: 0, y: 30 },
++    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50, mass: 1, damping: 20 } }
++  };
++
++  return (
++    <main className="relative min-h-screen bg-cyberBg text-white overflow-hidden font-sans" style={{ backgroundImage: "radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 30%), radial-gradient(circle at 85% 30%, rgba(148, 163, 184, 0.08), transparent 30%)" }}>
++      
++      {/* Immersive Dark Poly Web Background spanning the whole website via fixed positioning */}
++      <div className="fixed inset-0 z-0 opacity-100 mix-blend-screen">
++          <ParticleBackground onIntroComplete={() => setIntroCompleted(true)} />
++      </div>
++      
++      <AnimatePresence>
++        {introCompleted && (
++          <motion.div
++            initial={{ opacity: 0 }}
++            animate={{ opacity: 1 }}
++            transition={{ duration: 1, ease: 'easeOut' }}
++            className="relative z-10"
+           >
+-            Read our docs
+-          </a>
+-        </div>
+-      </main>
+-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+-        <a
+-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-          target="_blank"
+-          rel="noopener noreferrer"
+-        >
+-          <Image
+-            aria-hidden
+-            src="https://nextjs.org/icons/file.svg"
+-            alt="File icon"
+-            width={16}
+-            height={16}
+-          />
+-          Learn
+-        </a>
+-        <a
+-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-          target="_blank"
+-          rel="noopener noreferrer"
+-        >
+-          <Image
+-            aria-hidden
+-            src="https://nextjs.org/icons/window.svg"
+-            alt="Window icon"
+-            width={16}
+-            height={16}
+-          />
+-          Examples
+-        </a>
+-        <a
+-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-          target="_blank"
+-          rel="noopener noreferrer"
+-        >
+-          <Image
+-            aria-hidden
+-            src="https://nextjs.org/icons/globe.svg"
+-            alt="Globe icon"
+-            width={16}
+-            height={16}
+-          />
+-          Go to nextjs.org ΓåÆ
+-        </a>
++            {/* Navigation Bar */}
++            <motion.nav 
++              initial={{ opacity: 0, y: -20 }}
++              animate={{ opacity: 1, y: 0 }}
++              transition={{ duration: 1, delay: 0.2 }}
++              className="absolute top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-transparent"
++            >
++              <div className="text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-slate-200">
++                AutoAnalytica
++              </div>
++              <div className="flex items-center gap-8 text-sm font-medium text-slate-300">
++                 <a href="/" className="hover:text-white transition-colors cursor-pointer hidden md:flex">Home</a>
++                 <a href="/about" className="hover:text-blue-400 transition-colors cursor-pointer hidden md:flex">About</a>
++                 <a href="/pricing" className="hover:text-blue-400 transition-colors cursor-pointer hidden md:flex">Pricing</a>
++                 <a href="/docs" className="hover:text-blue-400 transition-colors cursor-pointer hidden md:flex">Docs</a>
++                 <a href="/contact" className="hover:text-blue-400 transition-colors cursor-pointer hidden md:flex">Contact</a>
++                 <a href="/auth" className="px-6 py-2.5 rounded-full border border-slate-600 hover:bg-slate-800 transition backdrop-blur-md text-slate-100 shadow-sm">
++                   Login
++                 </a>
++              </div>
++            </motion.nav>
++
++            {/* ================= HERO SECTION ================= */}
++            <div className="relative z-10 max-w-[90rem] mx-auto px-8 min-h-[90vh] flex flex-col lg:flex-row items-center justify-center gap-16 pt-32 pb-20">
++               
++      {/* ================= PLATFORM ARCHITECTURE FEATURES ================= */}
++      <motion.div 
++        initial={{ opacity: 0, y: 50 }}
++        whileInView={{ opacity: 1, y: 0 }}
++        viewport={{ once: true, margin: "-100px" }}
++        transition={{ duration: 1 }}
++        className="relative z-10 max-w-[90rem] mx-auto px-8 py-32 border-t border-slate-800"
++      >
++         <div className="text-center mb-20">
++             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-slate-100">
++                 The AutoAnalytica <span className="text-blue-400 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-slate-200">Cognitive Engine</span>
++             </h2>
++             <p className="text-lg text-slate-400 max-w-2xl mx-auto font-light">
++                 Explore the architecture powering the next generation of autonomous enterprise data science. Completely localized, fiercely secure.
++             </p>
++         </div>
++
++         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
++             <div className="glass-panel-cyber rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300">
++                 <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-6 shadow-sm">
++                     <Layers size={24} />
++                 </div>
++                 <h3 className="text-2xl font-semibold text-slate-100 mb-3">AI Deep Clustering</h3>
++                 <p className="text-slate-400 leading-relaxed text-sm font-light">
++                     High-dimensional data mapping relying on robust machine learning algorithms. The Engine dynamically builds clean visual structures inside an isolated environment.
++                 </p>
++             </div>
++
++             <div className="glass-panel-cyber rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300">
++                 <div className="w-14 h-14 rounded-xl bg-slate-500/10 border border-slate-500/30 flex items-center justify-center text-slate-300 mb-6 shadow-sm">
++                     <Zap size={24} />
++                 </div>
++                 <h3 className="text-2xl font-semibold text-slate-100 mb-3">Zero-Trust Pipeline</h3>
++                 <p className="text-slate-400 leading-relaxed text-sm font-light">
++                     Local computation protocols enforce strict corporate security bounds. Datasets are purged on session collapse utilizing fast memory-safe execution.
++                 </p>
++             </div>
++
++             <div className="glass-panel-cyber rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300">
++                 <div className="w-14 h-14 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-6 shadow-sm">
++                     <Activity size={24} />
++                 </div>
++                 <h3 className="text-2xl font-semibold text-slate-100 mb-3">Continuous Inference</h3>
++                 <p className="text-slate-400 leading-relaxed text-sm font-light">
++                     Execute autonomous analytical sweeps instantaneously. Generates comprehensive PDF executive reports wrapping live statistical findings.
++                 </p>
++             </div>
++         </div>
++      </motion.div>
++
++      {/* ================= INTERACTIVE VISUALIZATION SHOWCASE ================= */}
++      <motion.div 
++        initial={{ opacity: 0 }}
++        whileInView={{ opacity: 1 }}
++        viewport={{ once: true, margin: "-100px" }}
++        transition={{ duration: 1 }}
++        className="relative z-10 max-w-[90rem] mx-auto px-8 py-32 border-t border-slate-800"
++      >
++         <div className="flex flex-col lg:flex-row gap-16 items-center">
++            
++            {/* Left Content */}
++            <div className="flex-1 space-y-6">
++                <div className="inline-flex w-fit px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 font-medium text-sm">
++                  Executive Dashboarding
++                </div>
++                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-slate-100">
++                   A Single Source of <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-300">Truth</span>.
++                </h2>
++                <p className="text-lg text-slate-400 leading-relaxed font-light">
++                   AutoAnalytica automatically projects your datasets into clean, beautiful dashboards. Eliminate the need for complex Tableau setups and let AI generate the optimal insight matrix in milliseconds.
++                </p>
++                <ul className="space-y-5 mt-8">
++                   {["Automated Trend Alignment", "Dimensionality Reduction", "Statistical Outlier Reporting"].map((item, idx) => (
++                       <li key={idx} className="flex items-center gap-4 text-slate-200 font-medium">
++                           <div className="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
++                               <ArrowRight size={16} />
++                           </div>
++                           {item}
++                       </li>
++                   ))}
++                </ul>
++            </div>
++
++            {/* Right Visual Component */}
++            <div className="flex-1 w-full max-w-2xl relative">
++                <div className="glass-panel-cyber rounded-3xl p-6 h-[450px] flex items-end gap-3 justify-center relative overflow-hidden backdrop-blur-2xl">
++                    
++                    {/* Simulated Animated Graph */}
++                    {[80, 40, 100, 60, 90, 50, 70, 30, 85].map((height, i) => (
++                        <div key={i} className="w-10 md:w-14 bg-gradient-to-t from-slate-700 via-blue-600 to-blue-400 rounded-t-lg relative group transition-all duration-700 hover:h-[95%] cursor-pointer" style={{ height: `${height}%` }}>
++                            {/* Hover Tooltip */}
++                            <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-slate-300 text-xs font-semibold py-1 px-3 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
++                                KPI {i+1}: {height}%
++                            </div>
++                        </div>
++                    ))}
++                    
++                    {/* Horizontal Base Line */}
++                    <div className="absolute bottom-6 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
++                </div>
++                
++                {/* Floating Correlation Card */}
++                <motion.div 
++                  animate={{ y: [0, -10, 0] }}
++                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
++                  className="absolute -left-6 md:-left-12 -bottom-8 glass-panel-cyber p-5 rounded-2xl flex items-center gap-4 shadow-xl"
++                >
++                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
++                        <Activity size={24} />
++                    </div>
++                    <div>
++                        <div className="text-slate-100 font-semibold text-sm tracking-wide">Metric Variance Detected</div>
++                        <div className="text-slate-400 text-xs mt-1">Q3 Revenue up 14.2%</div>
++                    </div>
++                </motion.div>
++            </div>
++         </div>
++      </motion.div>
++
++      {/* ================= HOW IT WORKS ================= */}
++      <motion.div 
++        initial={{ opacity: 0 }}
++        whileInView={{ opacity: 1 }}
++        viewport={{ once: true }}
++        transition={{ duration: 1 }}
++        className="relative z-10 max-w-[90rem] mx-auto px-8 py-24 bg-[#0a0f1a]/80 border-y border-slate-800 backdrop-blur-md"
++      >
++         <div className="text-center mb-16">
++             <h2 className="text-3xl md:text-4xl font-bold tracking-tighter text-slate-100">Integrating into your <span className="text-blue-400">Workflow</span></h2>
++         </div>
++         <div className="flex flex-col md:flex-row gap-12 justify-center max-w-5xl mx-auto relative">
++             <div className="hidden md:block absolute top-[28px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-slate-800 via-slate-600 to-slate-800 z-0"></div>
++             
++             {["Secure Authentication", "Upload Master Data", "Access Insights"].map((step, i) => (
++                 <div key={i} className="flex-1 flex flex-col items-center text-center relative z-10">
++                     <div className="w-14 h-14 rounded-full bg-[#060A14] border border-blue-500 text-blue-400 font-semibold flex items-center justify-center text-xl mb-6 shadow-sm">
++                         {i + 1}
++                     </div>
++                     <h3 className="text-xl font-semibold text-slate-100 mb-2">{step}</h3>
++                     <p className="text-sm text-slate-400 px-4 font-light">
++                         {i === 0 && "Sign up seamlessly via zero-trust corporate directory login flows."}
++                         {i === 1 && "Ingest massive datasets securely inside your browser runtime memory."}
++                         {i === 2 && "A fully interactive BI dashboard is autonomously mapped and generated."}
++                     </p>
++                 </div>
++             ))}
++         </div>
++      </motion.div>
++
++      {/* ================= STANDARD FOOTER ================= */}
++      <footer className="relative z-10 bg-[#060A14]/90 pt-16 pb-8 px-8 backdrop-blur-xl border-t border-slate-800">
++          <div className="max-w-[90rem] mx-auto flex flex-col md:flex-row justify-between gap-12 border-b border-slate-800 pb-12 mb-8">
++              <div className="max-w-xs">
++                  <div className="text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-slate-200 mb-4">
++                    AutoAnalytica
++                  </div>
++                  <p className="text-sm text-slate-500 font-light">The premier enterprise data intelligence and BI reporting platform for agile corporate teams.</p>
++              </div>
++              <div className="flex gap-16">
++                  <div>
++                      <h4 className="text-slate-200 font-semibold mb-4">Platform</h4>
++                      <ul className="space-y-2 text-sm text-slate-400">
++                          <li><a href="#" className="hover:text-blue-400 transition">Reporting</a></li>
++                          <li><a href="#" className="hover:text-blue-400 transition">Analytics</a></li>
++                          <li><a href="#" className="hover:text-blue-400 transition">Integrations</a></li>
++                      </ul>
++                  </div>
++                  <div>
++                      <h4 className="text-slate-200 font-semibold mb-4">Company</h4>
++                      <ul className="space-y-2 text-sm text-slate-400">
++                          <li><a href="#" className="hover:text-blue-400 transition">About Us</a></li>
++                          <li><a href="#" className="hover:text-blue-400 transition">Contact</a></li>
++                          <li><a href="#" className="hover:text-blue-400 transition">Enterprise</a></li>
++                      </ul>
++                  </div>
++              </div>
++          </div>
++          <div className="max-w-[90rem] mx-auto flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 font-light">
++              <p>&copy; 2026 AutoAnalytica Inc. All rights reserved.</p>
++              <div className="flex gap-4 mt-4 md:mt-0">
++                  <a href="#" className="hover:text-slate-300 transition">Privacy Policy</a>
++                  <a href="#" className="hover:text-slate-300 transition">Terms of Service</a>
++              </div>
++          </div>
+       </footer>
+-    </div>
++
++      {/* Dense Environment Fog */}
++      <div className="absolute bottom-0 left-0 w-full h-[300px] bg-gradient-to-t from-[#060A14] to-transparent z-0 pointer-events-none"></div>
++
++          </motion.div>
++        )}
++      </AnimatePresence>
++    </main>
+   );
+ }
