@@ -64,6 +64,13 @@ def encode_plot_to_base64() -> str:
 def prepare_dataframe(df: pd.DataFrame, target_col: str = None, is_semi_supervised: bool = False, cleaning_strategy: str = "none"):
     """Encodes strings and prepares numeric splits. Intercepts null values to request cleaning permission."""
     
+    # Replace infinite values with NaN for uniform handling across all columns
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    df[numeric_cols] = df[numeric_cols].replace([np.inf, -np.inf], np.nan)
+    
+    # Drop columns that are entirely NaN
+    df = df.dropna(axis=1, how='all')
+    
     # Identify how many rows have null features (ignoring the semi-supervised target labels)
     features_df = df.drop(columns=[target_col]) if (is_semi_supervised and target_col and target_col in df.columns) else df
     null_count = features_df.isnull().any(axis=1).sum()
@@ -85,11 +92,21 @@ def prepare_dataframe(df: pd.DataFrame, target_col: str = None, is_semi_supervis
                     continue # Do not impute the target we are trying to predict
                 if df[col].isnull().any():
                     if df[col].dtype.kind in 'iufc':
-                        df[col] = df[col].fillna(df[col].mean())
+                        col_mean = df[col].mean()
+                        df[col] = df[col].fillna(col_mean if not pd.isna(col_mean) else 0)
                     else:
                         df[col] = df[col].fillna(df[col].mode()[0] if not df[col].mode().empty else "Unknown")
             if is_semi_supervised and target_col and target_col in df.columns:
                  df[target_col] = df[target_col].fillna(-1)
+    
+    # Final safety net: drop any remaining rows with NaN in numeric columns
+    remaining_numeric = df.select_dtypes(include=[np.number]).columns
+    if not is_semi_supervised:
+        df = df.dropna(subset=remaining_numeric)
+    else:
+        feature_numeric = [c for c in remaining_numeric if c != target_col]
+        if feature_numeric:
+            df = df.dropna(subset=feature_numeric)
     
     encoders = {}
     for col in df.columns:

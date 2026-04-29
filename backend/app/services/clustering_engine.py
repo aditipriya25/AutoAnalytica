@@ -28,7 +28,13 @@ def execute_kmeans(content: bytes, filename: str, n_clusters: int = 3, cleaning_
          raise ValueError("Unsupported format for clustering.")
          
     # 2. Preprocess (Only numeric for basic K-Means)
-    df_numeric = df.select_dtypes(include=[np.number])
+    df_numeric = df.select_dtypes(include=[np.number]).copy()
+    
+    # Replace infinite values with NaN for uniform handling
+    df_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
+    
+    # Drop columns that are entirely NaN (mean would also be NaN)
+    df_numeric = df_numeric.dropna(axis=1, how='all')
     
     null_count = df_numeric.isnull().any(axis=1).sum()
     if null_count > 0:
@@ -37,9 +43,16 @@ def execute_kmeans(content: bytes, filename: str, n_clusters: int = 3, cleaning_
         elif cleaning_strategy == "drop":
             df_numeric = df_numeric.dropna()
         elif cleaning_strategy == "impute":
-            df_numeric = df_numeric.fillna(df_numeric.mean())
-    if df_numeric.empty:
-         raise ValueError("Dataset must contain numeric columns for clustering.")
+            # Use column mean, falling back to 0 for columns where mean is still NaN
+            col_means = df_numeric.mean()
+            col_means = col_means.fillna(0)
+            df_numeric = df_numeric.fillna(col_means)
+    
+    # Final safety net: drop any remaining rows with NaN (catches edge cases)
+    df_numeric = df_numeric.dropna()
+    
+    if df_numeric.empty or len(df_numeric) < 2:
+         raise ValueError("Dataset must contain enough valid numeric rows for clustering.")
          
     scaler = StandardScaler()
     scaled_data = scaler.fit_transform(df_numeric)

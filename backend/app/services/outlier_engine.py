@@ -27,7 +27,13 @@ def detect_outliers(content: bytes, filename: str, contamination_rate: float = 0
         raise ValueError("Unsupported format for anomaly detection.")
         
     # Agnostic Approach: Isolate all numerical fields for dimensional anomaly reading
-    df_numeric = df.select_dtypes(include=[np.number])
+    df_numeric = df.select_dtypes(include=[np.number]).copy()
+    
+    # Replace infinite values with NaN for uniform handling
+    df_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
+    
+    # Drop columns that are entirely NaN (mean would also be NaN)
+    df_numeric = df_numeric.dropna(axis=1, how='all')
     
     null_count = df_numeric.isnull().any(axis=1).sum()
     if null_count > 0:
@@ -36,10 +42,15 @@ def detect_outliers(content: bytes, filename: str, contamination_rate: float = 0
         elif cleaning_strategy == "drop":
             df_numeric = df_numeric.dropna()
         elif cleaning_strategy == "impute":
-            df_numeric = df_numeric.fillna(df_numeric.mean())
+            col_means = df_numeric.mean()
+            col_means = col_means.fillna(0)
+            df_numeric = df_numeric.fillna(col_means)
+    
+    # Final safety net: drop any remaining rows with NaN
+    df_numeric = df_numeric.dropna()
             
-    if df_numeric.empty:
-        raise ValueError("Dataset requires numeric parameters to compute multi-column mathematical anomalies.")
+    if df_numeric.empty or len(df_numeric) < 2:
+        raise ValueError("Dataset requires enough valid numeric rows for anomaly detection.")
 
     # Standardize data for PCA and Isolation Forest
     scaler = StandardScaler()
